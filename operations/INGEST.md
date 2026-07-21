@@ -13,7 +13,7 @@ Whenever a new source (document, memo, user statement) updates the ontology, run
    - **Discard generator prose.** When promoting, synthesized prose (from `staging/synthesis` or a candidate's Notes) is not evidence. Only what is directly written in the candidate's real sources counts.
 
 3. **Match types** — Decide which object each fact belongs to:
-   - Fact about an existing object → mark that file for update.
+   - Fact about an existing object → mark that file for update. (At scale, you may locate the existing object / check for duplicates with one `bin/search.py` run — pointer only; confirm by reading the file before updating.)
    - Fact about a new entity → find the matching type in INDEX's Types section; read its membership criteria to confirm.
    - **No matching type → do not create the object.** Report the fact as "unclassifiable" and, if warranted, propose a new type to the user.
 

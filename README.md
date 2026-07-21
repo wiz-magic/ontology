@@ -4,7 +4,7 @@ A general-purpose base layer that structures domain knowledge into **semantic un
 
 Template version: see `template-version` at the top of [SCHEMA.md](SCHEMA.md). Record it in your bootstrap log line (quick start step 6).
 
-It synthesizes five proven designs. The first three are the core skeleton; the last two are layers added **behind a firewall** (see "3-layer architecture" below):
+It synthesizes six proven designs. The first three are the core skeleton; the last three are layers adopted **behind guardrails** (see "3-layer architecture" below):
 
 | Source | What was taken |
 |---|---|
@@ -13,6 +13,7 @@ It synthesizes five proven designs. The first three are the core skeleton; the l
 | Claude system prompts (harness engineering) | permission tiers, autonomy boundaries, verification duties, failure behavior declared as explicit sections |
 | garrytan/gbrain (memory layer) | hybrid search · gap analysis · candidate generation — but behind a **firewall**: operates only in `staging/` outside the canon; facts are promoted only through the INGEST gate (SCHEMA §9) |
 | garrytan/gstack (org layer) | role division (virtual team) · sprint rhythm — but **only the role taxonomy, not the skill bodies**: role = `kind: role`, handoffs = tier-gated (SCHEMA §10) |
+| Cerebras Knowledge Base ("How we built our knowledge base") | hybrid retrieval (lexical + fuzzy, RRF fusion) · distill-then-index · fact-level "bursting" · a uniform connector contract — but demoted to **locator duty**: search output is a pointer, never a source; connectors write only to `staging/` (SCHEMA §9.5, `bin/search.py`). Age-decay/recency-wins and answer-synthesis-as-fact were deliberately **not** taken (they conflict with the firewall) |
 
 ## Core design principles
 
@@ -52,7 +53,9 @@ ontology_v3/
 │   ├── LINT.md          ← integrity checks (+ firewall checks 9–13)
 │   └── ORCHESTRATE.md   ← multi-role sprint procedure (org layer)
 ├── bin/
-│   └── build_index.py   ← regenerates INDEX.md from frontmatter (parallel mode / big ontologies)
+│   ├── build_index.py         ← regenerates INDEX.md from frontmatter (parallel mode / big ontologies)
+│   ├── search.py              ← hybrid retriever (locator only): BM25 + trigram fused by RRF, fact-level bursting, opt-in staging sweep
+│   └── connector_skeleton.py  ← reference connector (SCHEMA §9.5): copy per channel, replace 2 functions
 └── examples/cafe/       ← worked example domain (cafe operations). Start here
 ```
 
@@ -147,7 +150,7 @@ Start small. Start with 3 and add a type only when LINT repeatedly reports "uncl
 Usually because HARNESS.md wasn't in context or got truncated. HARNESS.md is designed to stay short — put procedure detail in operations/, never in HARNESS.md.
 
 **Q. What when INDEX.md gets big?**
-The growth rule (SCHEMA §7.1) splits the Objects section into per-type sub-indexes at 200 entries; `bin/build_index.py` applies it automatically. INDEX.md stays small and always-loaded.
+The growth rule (SCHEMA §7.1) splits the Objects section into per-type sub-indexes at 200 entries; `bin/build_index.py` applies it automatically. INDEX.md stays small and always-loaded. For recall beyond title/summary scanning at that scale, `bin/search.py` provides hybrid search over the canon — pointer-only, wired into QUERY steps 1/4.
 
 **Q. Can multiple agents work at the same time?**
 LOG.md and INDEX.md become write-contended. If you need concurrency, follow Phase 3 (ORCHESTRATE): partition write scopes per role, shard logs, regenerate INDEX by build, and route all definition changes through a single gatekeeper.
