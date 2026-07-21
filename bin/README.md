@@ -7,7 +7,7 @@ Reference implementation that **derives and regenerates** `ontology/INDEX.md` fr
 ```
 python bin/build_index.py                      # rewrite INDEX.md
 python bin/build_index.py --check              # verify only; exit 1 on mismatch (CI hook)
-python bin/build_index.py --root PATH          # operate on another copy (e.g. examples/cafe)
+python bin/build_index.py --root PATH          # operate on another template copy
 python bin/build_index.py --split-threshold N  # split Objects by type above N entries (default 200)
 ```
 
@@ -23,7 +23,7 @@ Hybrid retriever over the canon (and, opt-in, open staging entries). **Locator o
 python bin/search.py "<query>"              # search ontology/ (canon)
 python bin/search.py "<query>" --staging    # + open candidates/edges + synthesis (grade-labeled)
 python bin/search.py "<query>" --top 15     # number of results (default 10)
-python bin/search.py "<query>" --root PATH  # operate on another copy (e.g. examples/cafe)
+python bin/search.py "<query>" --root PATH  # operate on another template copy
 ```
 
 Design (stdlib only; scans at query time — no index files, so it is never stale):

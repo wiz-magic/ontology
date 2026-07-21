@@ -9,7 +9,7 @@ big ontologies (section 7.1 growth rule). Stdlib only.
 Usage:
     python bin/build_index.py                      # rewrite <root>/ontology/INDEX.md
     python bin/build_index.py --check              # verify only; exit 1 on mismatch (CI hook)
-    python bin/build_index.py --root PATH          # operate on another template copy (e.g. examples/cafe)
+    python bin/build_index.py --root PATH          # operate on another template copy
     python bin/build_index.py --split-threshold N  # split Objects by type above N entries (default 200)
 
 Conventions:

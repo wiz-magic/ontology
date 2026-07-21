@@ -56,15 +56,14 @@ ontology_v3/
 │   ├── build_index.py         ← regenerates INDEX.md from frontmatter (parallel mode / big ontologies)
 │   ├── search.py              ← hybrid retriever (locator only): BM25 + trigram fused by RRF, fact-level bursting, opt-in staging sweep
 │   └── connector_skeleton.py  ← reference connector (SCHEMA §9.5): copy per channel, replace 2 functions
-└── examples/cafe/       ← worked example domain (cafe operations). Start here
 ```
 
 ## Quick start — applying to a new domain
 
-1. Open `examples/cafe/` and see what types/objects/links/actions/roles look like in practice (5 minutes).
+1. Read the `_TEMPLATE` file in each of `types/`, `objects/`, `links/`, `actions/`, `roles/` to see the skeleton each kind of file follows (SCHEMA.md §§3–6, 10).
 2. Pick 3–7 **nouns** of your domain and define them in `ontology/types/` (copy `types/_TEMPLATE.type.md`).
 3. Define 2–5 **relations** between those nouns in `ontology/links/`.
-4. Define the **verbs** the agent may perform in `ontology/actions/`, each with a safety tier (T0/T1/T2). **This step IS the harness — grade conservatively.** Decision rule: observe-only → T0; changes only ontology-internal files and is reversible → T1; everything else — leaves the system, is seen by others, or touches money/contracts/deletion — → T2. In domains where mistakes are costly (medical, finance, legal), elevate even internal edits to T2 (e.g., editing a medication guideline; in the cafe example, `update-menu-price` is elevated the same way).
+4. Define the **verbs** the agent may perform in `ontology/actions/`, each with a safety tier (T0/T1/T2). **This step IS the harness — grade conservatively.** Decision rule: observe-only → T0; changes only ontology-internal files and is reversible → T1; everything else — leaves the system, is seen by others, or touches money/contracts/deletion — → T2. In domains where mistakes are costly (medical, finance, legal), elevate even internal edits to T2 (e.g., editing a medication guideline, or a customer-visible price change).
 5. Fill the `{{ }}` placeholders in `HARNESS.md` (domain name, user, prohibitions, LINT cadence). `operations/LINT.md` also has `{{N}}` and two `{{period}}` placeholders.
 6. **Bootstrap log** — append one `[SCHEMA]` line to `ontology/LOG.md` listing every definition created in steps 2–4, with `(user confirmed: <date>)` and the template version, e.g.
    `2026-06-01 [SCHEMA] bootstrap from ontology-template v2.1.0 — types: a, b; links: x; actions: y [T1]; role: z [max T1] (user confirmed: 2026-06-01)`
