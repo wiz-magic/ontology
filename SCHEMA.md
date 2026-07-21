@@ -323,7 +323,7 @@ Rules (in addition to the §9 firewall, which applies unchanged):
 5. **Freshness** — each connector declares its own re-scan cadence per source (a busy channel daily, an archive monthly). Re-scanning never edits existing candidates in place: it emits new ones; duplicate marking is a `[DREAM]` enrichment (§9.3), and merging is INGEST's call. Recency is **never** a truth criterion — contradictions between old and new information are resolved at INGEST (human decision), not by preferring the newer.
 6. **Identity** — connector-emitted candidate IDs should be reproducible per source unit (e.g., derived from the thread/commit ID), so re-runs surface as detectable duplicates rather than unbounded variants.
 
-Reference implementation: `bin/connector_skeleton.py` (bin/README.md) — copy it per channel and replace its two extraction functions; the contract mechanics (rules 1, 3–6) are already implemented. Worked example: `examples/cafe/raw/inbox` → `examples/cafe/staging/candidates/`.
+Reference implementation: `bin/connector_skeleton.py` (bin/README.md) — copy it per channel and replace its two extraction functions; the contract mechanics (rules 1, 3–6) are already implemented.
 
 ## 10. Org layer — roles (`kind: role`)
 

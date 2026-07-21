@@ -45,5 +45,3 @@ python bin/connector_skeleton.py --source PATH          # scan a source folder
 ```
 
 The skeleton keeps the §9.5 contract guarantees regardless of customization: writes only `staging/candidates/` + `STAGING-LOG.md` `[GEN]` lines (rule 1); `sources` = the real source path, never the connector (rule 3); one candidate per unit (rule 4); never edits an existing candidate whatever its status (rule 5); reproducible IDs so re-runs skip instead of duplicating (rule 6). Every run — including a run that emits nothing — appends one `[GEN]` audit line.
-
-Try it on the worked example: `python bin/connector_skeleton.py --source examples/cafe/raw/inbox --root examples/cafe --connector-id inbox` (idempotent — the emitted candidates are already committed).
